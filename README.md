@@ -17,13 +17,13 @@ How to run the project in your local machine
 - Clone this repository
 
 ```shell
-  git clone https://github.com/DAltier/flashcards-saas
+  git clone https://github.com/DAltier/FlashcardsSaaS
 ```
 
 - CD into the project directory
 
 ```shell
-  cd
+  cd FlashcardsSaaS
 ```
 
 - Install libraries
