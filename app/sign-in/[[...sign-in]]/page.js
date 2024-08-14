@@ -35,8 +35,11 @@ export default function SignInPage() {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
+        marginTop="30px"
       >
-        <Typography variant="h4">Sign In</Typography>
+        <Typography variant="h4" gutterBottom>
+          Sign In
+        </Typography>
         <SignIn />
       </Box>
     </Container>

@@ -35,8 +35,11 @@ export default function SignUpPage() {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
+        marginTop="30px"
       >
-        <Typography variant="h4">Sign Up</Typography>
+        <Typography variant="h4" gutterBottom>
+          Sign Up
+        </Typography>
         <SignUp />
       </Box>
     </Container>
