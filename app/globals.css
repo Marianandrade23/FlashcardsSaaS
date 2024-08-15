@@ -3,3 +3,35 @@
   padding: 0;
   margin: 0;
 }
+
+.navbar-container {
+  background-color: gray;
+  box-shadow: none;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-title {
+  font-weight: bold;
+  color: white;
+}
+
+.navbar-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-box {
+  width: 100vw;
+  color: black;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}

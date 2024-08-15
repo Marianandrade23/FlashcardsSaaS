@@ -1,21 +1,14 @@
 'use client';
 
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Grid,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import getStripe from './utils/get-stripe';
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Head from 'next/head';
+import Navbar from './navbar/Navbar';
+import Footer from './footer/Footer';
 
 export default function Home() {
   const handleSubmit = async () => {
-    const checkoutSession = await fetch('/api/checkout_sessions', {
+    const checkoutSession = await fetch('/api/checkout_session', {
       method: 'POST',
       headers: { origin: 'http://localhost:3000' },
     });
@@ -37,24 +30,7 @@ export default function Home() {
         <title>Flashcard SaaS</title>
         <meta name="description" content="Create flashcards from your text" />
       </Head>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
-            Flashcard SaaS
-          </Typography>
-          <SignedOut>
-            <Button color="inherit" href="/sign-in">
-              Login
-            </Button>
-            <Button color="inherit" href="/sign-up">
-              Sign Up
-            </Button>
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </Toolbar>
-      </AppBar>
+      <Navbar />
       <Box sx={{ textAlign: 'center', my: 4 }}>
         <Typography variant="h2" component="h1" gutterBottom>
           Welcome to Flashcard SaaS
@@ -135,7 +111,12 @@ export default function Home() {
                 {' '}
                 Access to basic flashcard features and limited storage.
               </Typography>
-              <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
+                onClick={handleSubmit}
+              >
                 Choose Basic
               </Button>
             </Box>
@@ -159,13 +140,19 @@ export default function Home() {
                 {' '}
                 Unlimited flashcard and storage, with priority support.
               </Typography>
-              <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
+                onClick={handleSubmit}
+              >
                 Choose Pro
               </Button>
             </Box>
           </Grid>
         </Grid>
       </Box>
+      <Footer />
     </Container>
   );
 }

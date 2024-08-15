@@ -1,7 +1,14 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { Typography, Container, Box } from '@mui/material';
+
 const ResultPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const session_id = searchParams.get('session_id');
+
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState(null);
   const [error, setError] = useState(null);
@@ -9,28 +16,9 @@ const ResultPage = () => {
   useEffect(() => {
     const fetchCheckoutSession = async () => {
       if (!session_id) return;
-      if (loading) {
-        return (
-          <Container maxWidth="sm" sx={{ textAlign: 'center', mt: 4 }}>
-            <CircularProgress />
-            <Typography variant="h6" sx={{ mt: 2 }}>
-              Loading...
-            </Typography>
-          </Container>
-        );
-      }
-      if (error) {
-        return (
-          <Container maxWidth="sm" sx={{ textAlign: 'center', mt: 4 }}>
-            <Typography variant="h6" color="error">
-              {error}
-            </Typography>
-          </Container>
-        );
-      }
       try {
         const res = await fetch(
-          `/api/checkout_sessions?session_id=${session_id}`
+          `/api/checkout_session?session_id=${session_id}`
         );
         const sessionData = await res.json();
         if (res.ok) {
@@ -47,12 +35,50 @@ const ResultPage = () => {
     fetchCheckoutSession();
   }, [session_id]);
 
+  if (loading) {
+    return (
+      <Container
+        maxWidth="100vw"
+        sx={{
+          textAlign: 'center',
+          my: 4,
+        }}
+      >
+        <Typography variant="h4">Loading...</Typography>
+      </Container>
+    );
+  }
+
+  if (!session) {
+    console.log('Checking session:', session); // Log before the condition
+
+    console.log(session, "session doesn't exist");
+    return (
+      <Container
+        maxWidth="100vw"
+        sx={{
+          textAlign: 'center',
+          my: 4,
+        }}
+      >
+        <Typography variant="h4">An error occurred</Typography>
+        {error && <Typography variant="body1">{error}</Typography>}
+      </Container>
+    );
+  }
+
   return (
-    <Container maxWidth="sm" sx={{ textAlign: 'center', mt: 4 }}>
+    <Container
+      maxWidth="100vw"
+      sx={{
+        textAlign: 'center',
+        my: 4,
+      }}
+    >
       {session.payment_status === 'paid' ? (
         <>
-          <Typography variant="h4">Thank you for your purchase!</Typography>
-          <Box sx={{ mt: 2 }}>
+          <Typography variant="h4">Thank you for purchasing.</Typography>
+          <Box sx={{ mt: 22 }}>
             <Typography variant="h6">Session ID: {session_id}</Typography>
             <Typography variant="body1">
               We have received your payment. You will receive an email with the
@@ -62,8 +88,8 @@ const ResultPage = () => {
         </>
       ) : (
         <>
-          <Typography variant="h4">Payment failed</Typography>
-          <Box sx={{ mt: 2 }}>
+          <Typography variant="h4">Payment Failed</Typography>
+          <Box sx={{ mt: 22 }}>
             <Typography variant="body1">
               Your payment was not successful. Please try again.
             </Typography>
@@ -73,3 +99,5 @@ const ResultPage = () => {
     </Container>
   );
 };
+
+export default ResultPage;

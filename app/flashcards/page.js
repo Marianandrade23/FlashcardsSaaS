@@ -1,6 +1,20 @@
 'use client';
 
-export default function Flashcard() {
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
+import { database } from '../../firebase';
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  Container,
+  Grid,
+  Card,
+  CardActionArea,
+  CardContent,
+  Typography,
+} from '@mui/material';
+
+export default function Flashcards() {
   const { isLoaded, isSignedIn, user } = useUser();
   const [flashcards, setFlashcards] = useState([]);
   const router = useRouter();
@@ -8,7 +22,7 @@ export default function Flashcard() {
   useEffect(() => {
     async function getFlashcards() {
       if (!user) return;
-      const docRef = doc(collection(db, 'users'), user.id);
+      const docRef = doc(collection(database, 'users'), user.id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const collections = docSnap.data().flashcards || [];
@@ -19,6 +33,10 @@ export default function Flashcard() {
     }
     getFlashcards();
   }, [user]);
+
+  if (!isLoaded || !isSignedIn) {
+    return <></>;
+  }
 
   const handleCardClick = (id) => {
     router.push(`/flashcard?id=${id}`);
