@@ -42,7 +42,6 @@ export default function Flashcard() {
     })
       .then((res) => res.json())
       .then((data) => setFlashcards(data));
-    console.log(flashcards, 'flashcards');
   };
 
   const handleCardClick = (id) => {
@@ -235,7 +234,7 @@ export default function Flashcard() {
           <Button onClick={saveFlashcards}>Save</Button>
         </DialogActions>
       </Dialog>
-      <Footer />
+      {/* <Footer /> */}
     </Container>
   );
 }
